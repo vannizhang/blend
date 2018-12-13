@@ -1,0 +1,11 @@
+@import url('https://js.arcgis.com/4.9/esri/css/main.css');
+@import url('https://s3-us-west-1.amazonaws.com/patterns.esri.com/files/calcite-web/1.2.0/css/calcite-web.min.css');
+
+html,
+body,
+#viewDiv {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    width: 100%;
+}
