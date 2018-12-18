@@ -112,7 +112,7 @@ function(
             });
     
             const blendLayer = new BlendLayer({
-                multiplyLayers: [
+                blendLayers: [
                     imageryLayer,
                     hillShadeLayer
                 ],
@@ -158,12 +158,12 @@ function(
         const BlendLayer = BaseTileLayer.createSubclass({
 
             properties: {
-                multiplyLayers: null,
+                blendLayers: null,
                 blendMode: null
             },
 
             load: function() {
-                this.multiplyLayers.forEach(function(layer) {
+                this.blendLayers.forEach(function(layer) {
                     this.addResolvingPromise(layer.load());
                 }, this);
             },
@@ -172,7 +172,7 @@ function(
 
                 // console.log(level);
 
-                const tilePromises = this.multiplyLayers.map(function(layer) {
+                const tilePromises = this.blendLayers.map(function(layer) {
                     return layer.fetchTile(level, row, col);
                 });
 
@@ -191,7 +191,7 @@ function(
                     results.forEach(function(result, index) {
                         const image = result.value;
 
-                        const cssFilter = this.multiplyLayers[index].cssFilter || null;
+                        const cssFilter = this.blendLayers[index].cssFilter || null;
 
                         context.filter = cssFilter || 'none';
 
@@ -264,7 +264,9 @@ function(
 
     const initApp = function(){
 
-        const availableStyleRecipes = Object.keys(BLEND_MODE_RECIPE);
+        const iOS = !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
+
+        const availableStyleRecipes = iOS ? Object.keys(BLEND_MODE_RECIPE).filter(d=>{return d !== 'War Room'}) : Object.keys(BLEND_MODE_RECIPE);
 
         const defaultStyleRecipe = BLEND_MODE_RECIPE[availableStyleRecipes[0]];
         
