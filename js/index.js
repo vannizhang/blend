@@ -89,7 +89,8 @@ function(
                 center: CENTER_COORD,
                 zoom: ZOOM,
                 constraints: {
-                    snapToZoom: false
+                    snapToZoom: false,
+                    rotationEnabled: false
                 }
             });
         };
